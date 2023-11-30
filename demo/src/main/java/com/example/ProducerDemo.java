@@ -1,8 +1,10 @@
 package com.example;
 
+import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,12 +28,40 @@ public class ProducerDemo {
         // create the producer
         KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
 
-        // create a producer record
-        ProducerRecord<String, String> producerRecord =
-                new ProducerRecord<>("demo_java", "fuck it we ball");
 
-        // send data - asynchronous
-        producer.send(producerRecord);
+        for (int i=0; i<10; i++ ) {
+
+            // create a producer record
+
+            String topic = "demo_java2";
+            String value = "hello world " + Integer.toString(i);
+            String key = "id_" + Integer.toString(i);
+
+            final ProducerRecord<String, String> producerRecord =
+                    new ProducerRecord<>(topic, key, value);
+
+            // send data - asynchronous
+            producer.send(producerRecord, new Callback() {
+                public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+                    // executes every time a record is successfully sent or an exception is thrown
+                    if (e == null) {
+                        // the record was successfully sent
+                        log.info("Received new metadata. \n" +
+                                "Topic:" + recordMetadata.topic() + "\n" +
+                                "Key:" + producerRecord.key() + "\n" +
+                                "Partition: " + recordMetadata.partition() + "\n" +
+                                "Offset: " + recordMetadata.offset() + "\n" +
+                                "Timestamp: " + recordMetadata.timestamp());
+                    } else {
+                        log.error("Error while producing", e);
+                    }
+                }
+            });
+        }
+
+
+
+
 
         // flush data - synchronous
         producer.flush();
