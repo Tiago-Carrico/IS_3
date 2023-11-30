@@ -1,4 +1,4 @@
-package com.example.teachfiles;
+package com.example.streams;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -11,16 +11,14 @@ import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Produced;
 
-
-public class StreamsDemo {
-
- public static void main(String[] args) throws InterruptedException, IOException {
+public class KafkaStream {
+    public static void main(String[] args) throws InterruptedException, IOException {
   //String topicName = args[0].toString();
-  String topicName = "demo__java4";
-  String outtopicname = "resultstopic2";
+  String topicName = "bleh";
+  String outtopicname = "resultstopicSales";
 
   java.util.Properties props = new Properties();
-  props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application"); //saves the state, thats why the count is so high
+  props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application2"); //saves the state, thats why the count is so high
   props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "broker1:9092");
   props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
   props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.Long().getClass());
