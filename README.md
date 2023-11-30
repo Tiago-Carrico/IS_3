@@ -8,4 +8,5 @@ Tutorial(enter consumer cli)
 kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic demo_java
 
 Our:
-kafka-console-consumer.sh --bootstrap-server broker1:9092 --topic demo_java
+kafka-console-consumer.sh --bootstrap-server broker1:9092 --topic resultstopic2
+
