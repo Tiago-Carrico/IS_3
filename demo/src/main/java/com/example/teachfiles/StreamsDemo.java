@@ -16,34 +16,25 @@ public class StreamsDemo {
 
  public static void main(String[] args) throws InterruptedException, IOException {
   //String topicName = args[0].toString();
-  String topicName = "demo__java3";
-  String outtopicname = "resultstopic";
+  String topicName = "demo__java4";
+  String outtopicname = "resultstopic2";
 
   java.util.Properties props = new Properties();
   props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application");
   props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "broker1:9092");
   props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
   props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.Long().getClass());
-
-  /* 
+    
   StreamsBuilder builder = new StreamsBuilder();
   KStream<String, Long> lines = builder.stream(topicName);
 
   KTable<String, Long> outlines = lines.
     groupByKey().count();
-  outlines.toStream().to(outtopicname);
-   
-  KafkaStreams streams = new KafkaStreams(builder.build(), props);
-  streams.start();
-  */
 
-  StreamsBuilder builder = new StreamsBuilder();
-  KStream<String, Long> lines = builder.stream(topicName);
+  //outlines.toStream().to(outtopicname);
+  outlines.mapValues(v -> "" + v).toStream().to(outtopicname, Produced.with(Serdes.String(), Serdes.String())); 
 
-  KTable<String, Long> outlines = lines.groupByKey().count();
 
-  outlines.mapValues(v -> "" + v).toStream().to(outtopicname, Produced.with(Serdes.String(), Serdes.String()));
-    
   KafkaStreams streams = new KafkaStreams(builder.build(), props);
   streams.start();
   

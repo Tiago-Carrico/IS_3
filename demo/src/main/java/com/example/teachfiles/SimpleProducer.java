@@ -19,7 +19,7 @@ public class SimpleProducer {
 
   //Assign topicName to string variable
    //Assign topicName to string variable
-   String topicName = "demo__java3";
+   String topicName = "demo__java4";
 
    // create instance for properties to access producer configs   
    
@@ -51,46 +51,10 @@ public class SimpleProducer {
  
    Producer<String, Long> producer = new KafkaProducer<>(props);
  
-   for(int i = 0; i < 1000; i++)
+   for(int i = 0; i < 10; i++)
     producer.send(new ProducerRecord<String, Long>(topicName, Integer.toString(i), (long) i));
-
-
-/* 
-  Properties props2 = new Properties();
- 
-   //Assign localhost id
-   props2.put("bootstrap.servers", "broker1:9092");
- 
-   //Set acknowledgements for producer requests.      
-   props2.put("acks", "all");
- 
-   //If the request fails, the producer can automatically retry,
-   props2.put("retries", 0);
- 
-   //Specify buffer size in config
-   props2.put("batch.size", 16384);
- 
-   //Reduce the no of requests less than 0   
-   props2.put("linger.ms", 1);
- 
-   //The buffer.memory controls the total amount of memory available to the producer for buffering.   
-   props2.put("buffer.memory", 33554432);
- 
-   props2.put("key.serializer", 
-     "org.apache.kafka.common.serialization.StringSerializer");
- 
-   props2.put("value.serializer", 
-     "org.apache.kafka.common.serialization.StringSerializer");
-
-  Producer<String, String> producer2 = new KafkaProducer<>(props2);
-
-  for(int i = 0; i < 1000; i++){
-    producer2.send(new ProducerRecord<String, String>(topicName, Integer.toString(i), Integer.toString(i)));
-    System.out.println("key:" + Integer.toString(i) + " value: " + Integer.toString(i));
-  }*/
 
    System.out.println("Message sent successfully to topic " + topicName);
    producer.close();
-   //producer2.close();
  }
 }
