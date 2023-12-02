@@ -6,14 +6,14 @@ import org.json.JSONObject;
 
 public class Sale {
     private String reference;
-    private BigDecimal price;
+    private double price;
     private int number;
     private int supplier;
     private int buyer;
 
     public Sale(){};
 
-    public Sale(String reference, BigDecimal price, int number, int supplier, int buyer){
+    public Sale(String reference, double price, int number, int supplier, int buyer){
         this.reference = reference;
         this.price = price;
         this.number = number;
@@ -29,11 +29,11 @@ public class Sale {
         return reference;
     }
 
-    public void setPrice(BigDecimal price){
+    public void setPrice(double price){
         this.price = price;
     }
 
-    public BigDecimal getPrice(){
+    public double getPrice(){
         return price;
     }
 

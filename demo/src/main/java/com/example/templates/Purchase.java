@@ -4,25 +4,25 @@ import java.math.BigDecimal;
 import org.json.JSONObject;
 
 public class Purchase {
-    private BigDecimal price;
+    private double price;
     private int number;
     private String type;
     private int supplier;
 
     public Purchase(){};
 
-    public Purchase(BigDecimal price, int number, String type, int supplier){
+    public Purchase(double price, int number, String type, int supplier){
         this.price = price;
         this.number = number;
         this.type = type;
         this.supplier = supplier;
     };
 
-    public void setPrice(BigDecimal price){
+    public void setPrice(double price){
         this.price = price;
     }
 
-    public BigDecimal getPrice(){
+    public double getPrice(){
         return price;
     }
 

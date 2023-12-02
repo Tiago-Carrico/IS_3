@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.Arrays;
 //import util.properties packages
 import java.util.Properties;
+import java.util.Random;
 
 //import simple producer packages
 import org.apache.kafka.clients.producer.Producer;
@@ -18,83 +19,119 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 //import ProducerRecord packages
 import org.apache.kafka.clients.producer.ProducerRecord;
 
-public class producers {
+import com.example.templates.Sale;
 
+import java.math.BigDecimal;
+
+
+
+public class producers {
     public static void main(String[] args) throws Exception{
 
-    //TODO can we just do the props for all and use a 
-    
-    //TODO make consumers part from bottom topics
-    String topicDB = "DBInfo";
-    Properties propsDB = new Properties();
-    propsDB.put("bootstrap.servers", "broker1:9092");   //TODO how do we do to accomodate multiple brokers??  
-    propsDB.put("key.deserializer", 
-        "org.apache.kafka.common.serialization.StringDeserializer");
-    propsDB.put("value.deserializer", 
-        "org.apache.kafka.common.serialization.StringDeserializer");
-    propsDB.put(ConsumerConfig.GROUP_ID_CONFIG, "testConsumer");    //TODO important pick new one later
+        //TODO can we just do the props for all and use a 
+        
+        //TODO make consumers part from bottom topics
+        String topicDB = "DBInfo";
+        Properties propsDB = new Properties();
+        propsDB.put("bootstrap.servers", "broker1:9092");   //TODO how do we do to accomodate multiple brokers??  
+        propsDB.put("key.deserializer", 
+            "org.apache.kafka.common.serialization.StringDeserializer");
+        propsDB.put("value.deserializer", 
+            "org.apache.kafka.common.serialization.StringDeserializer");
+        propsDB.put(ConsumerConfig.GROUP_ID_CONFIG, "testConsumer");    //TODO important pick new one later
 
 
-    //TODO make Purchase producer part
-    String topicPurchase = "purchases";
-    Properties propsPurchase = new Properties();
-    propsPurchase.put("bootstrap.servers", "broker1:9092, broker2:9093");   //TODO how do we do to accomodate multiple brokers??  
-    propsPurchase.put("acks", "all");
-    propsPurchase.put("retries", 0);
-    propsPurchase.put("batch.size", 16384);
-    propsPurchase.put("linger.ms", 1);   
-    propsPurchase.put("buffer.memory", 33554432);
-    propsPurchase.put("key.serializer", 
-     "org.apache.kafka.common.serialization.StringSerializer");
-    propsPurchase.put("value.serializer", 
-     "org.apache.kafka.common.serialization.StringSerializer");
+        //TODO make Purchase producer part
+        String topicPurchase = "purchases";
+        Properties propsPurchase = new Properties();
+        propsPurchase.put("bootstrap.servers", "broker1:9092");   //TODO how do we do to accomodate multiple brokers??  
+        propsPurchase.put("acks", "all");
+        propsPurchase.put("retries", 0);
+        propsPurchase.put("batch.size", 16384);
+        propsPurchase.put("linger.ms", 1);   
+        propsPurchase.put("buffer.memory", 33554432);
+        propsPurchase.put("key.serializer", 
+        "org.apache.kafka.common.serialization.StringSerializer");
+        propsPurchase.put("value.serializer", 
+        "org.apache.kafka.common.serialization.StringSerializer");
 
-    Producer<String, String> producerPurchase = new KafkaProducer<>(propsPurchase);
-
-
-    //TODO make Sales producer part
-    String topicSales = "bleh2";
-    Properties propsSales = new Properties();
-    propsSales.put("bootstrap.servers", "broker1:9092, broker2:9093");   //TODO how do we do to accomodate multiple brokers??  
-    propsSales.put("acks", "all");
-    propsSales.put("retries", 0);
-    propsSales.put("batch.size", 16384);
-    propsSales.put("linger.ms", 1);   
-    propsSales.put("buffer.memory", 33554432);
-    propsSales.put("key.serializer", 
-     "org.apache.kafka.common.serialization.StringSerializer");
-    propsSales.put("value.serializer", 
-     "org.apache.kafka.common.serialization.StringSerializer");
-
-    Producer<String, String> producerSales = new KafkaProducer<>(propsSales);
+        Producer<String, String> producerPurchase = new KafkaProducer<>(propsPurchase);
 
 
+        //TODO make Sales producer part
+        String topicSales = "bleh3";
+        Properties propsSales = new Properties();
+        propsSales.put("bootstrap.servers", "broker1:9092");   //TODO how do we do to accomodate multiple brokers??  
+        propsSales.put("acks", "all");
+        propsSales.put("retries", 0);
+        propsSales.put("batch.size", 16384);
+        propsSales.put("linger.ms", 1);   
+        propsSales.put("buffer.memory", 33554432);
+        propsSales.put("key.serializer", 
+        "org.apache.kafka.common.serialization.StringSerializer");
+        propsSales.put("value.serializer", 
+        "org.apache.kafka.common.serialization.StringSerializer");
 
-    //TODO test stuff, remove before delivery or testing actual code
-     int i = 0;
-    //TODO cycle to produce and send all new info, maybe even read here
-    final KafkaConsumer<String, String> consumer = new KafkaConsumer<>(propsDB);
-    consumer.subscribe(Arrays.asList(topicSales));
-    while(true){
-        //It can send messages to topics
-        /*
-        producerSales.send(new ProducerRecord<String, String>(topicSales, Integer.toString(i), Integer.toString(i*2)));
-        i++;
-        System.out.println("it nr: " + i + "value: " + i*2);
-        Thread.sleep(1000);
-        */
+        Producer<String, String> producerSales = new KafkaProducer<>(propsSales);
 
-        //It can read messages from topics
-        /* 
-        ConsumerRecords<String, String> records =
-                        consumer.poll(Duration.ofMillis(100));
 
-                for (ConsumerRecord<String, String> record : records) {
-                    System.out.println("Key: " + record.key() + " value: " + record.value());
-                }*/
+
+        //TODO test stuff, remove before delivery or testing actual code
+        int i = 0;
+        //TODO cycle to produce and send all new info, maybe even read here
+        //final KafkaConsumer<String, String> consumer = new KafkaConsumer<>(propsDB);
+        //consumer.subscribe(Arrays.asList(topicSales));
+        while(true){
+            //It can send messages to topics
+            /*
+            producerSales.send(new ProducerRecord<String, String>(topicSales, Integer.toString(i), Integer.toString(i*2)));
+            i++;
+            System.out.println("it nr: " + i + "value: " + i*2);
+            Thread.sleep(1000);
+            */
+
+            //It can read messages from topics
+            /* 
+            ConsumerRecords<String, String> records =
+                            consumer.poll(Duration.ofMillis(100));
+
+                    for (ConsumerRecord<String, String> record : records) {
+                        System.out.println("Key: " + record.key() + " value: " + record.value());
+                    }*/
+
+
+            String tempSale = randomSale();
+
+            producerSales.send(new ProducerRecord<String, String>(topicSales, tempREF, randomSale()));
+            //System.out.println(tempREF);
+            //System.out.println(tempSale);
+            i++;
+            Thread.sleep(1000);
+
+        }
     }
 
+    static String[] referenceList = {"id123", "id456", "id789"};
+    static String[] nameList = {"tomas", "alexandre", "joao"};
+    static String[] typeList = {"low-cut", "knee-high", "invisible"};
+    static double[] priceList = { 12.5, 6.99, 4.55};
+    static int[] numberList = {5, 10, 15};
+    static int[] supplierList = {1, 5, 10};
+    static int[] buyerList = {156, 278, 923};
+    static String tempREF = "";
 
+    public static String randomSale(){
+        Random random = new Random();  
 
+        String randomRef = referenceList[random.nextInt(referenceList.length)];
+        double randomPrice = priceList[random.nextInt(priceList.length)];
+        int randomNum = numberList[random.nextInt(numberList.length)];
+        int randomSupplier = supplierList[random.nextInt(numberList.length)];
+        int randomBuyer = buyerList[random.nextInt(buyerList.length)];
+
+        Sale tempSale = new Sale(randomRef, randomPrice, randomNum, randomSupplier, randomBuyer);
+        tempREF = randomRef;
+        return tempSale.JsonToString();
     }
+
 }

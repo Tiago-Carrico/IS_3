@@ -9,7 +9,7 @@ public class test {
 
     public static void main(String[] args){
 
-        Sale testSale = new Sale("123", BigDecimal.valueOf(17.5), 5, 456, 789);
+        Sale testSale = new Sale("123", 17.5, 5, 456, 789);
         String jsonify = testSale.JsonToString();
 
         //System.out.println(jsonify);
