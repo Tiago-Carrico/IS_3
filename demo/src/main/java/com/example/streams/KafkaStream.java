@@ -14,7 +14,7 @@ import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.KeyValue;
 
 import com.example.templates.Sale;
-import com.example.aux.AuxJson;
+import com.example.auxFuncs.AuxJson;
 import java.math.BigDecimal;
 
 public class KafkaStream {

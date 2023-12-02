@@ -3,7 +3,7 @@ package com.example.templates;
 import java.math.BigDecimal;
 
 import org.json.*;
-import com.example.aux.AuxJson;
+import com.example.auxFuncs.AuxJson;
 
 public class test {
 
