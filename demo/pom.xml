@@ -61,6 +61,13 @@
       <artifactId>kafka-streams</artifactId>
       <version>3.3.1</version>
     </dependency>
+
+    <!--For json, to pass "objects" through messages-->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20231013</version>
+    </dependency>
   </dependencies>
 
   <build>
