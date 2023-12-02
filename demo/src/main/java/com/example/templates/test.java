@@ -3,7 +3,7 @@ package com.example.templates;
 import java.math.BigDecimal;
 
 import org.json.*;
-import com.example.aux.JsonAux;
+import com.example.aux.AuxJson;
 
 public class test {
 
@@ -15,10 +15,10 @@ public class test {
         //System.out.println(jsonify);
 
         JSONObject json2nd = new JSONObject();
-        json2nd = JsonAux.StringToJson(jsonify);
+        json2nd = AuxJson.StringToJson(jsonify);
 
         Sale lastSale = new Sale();
-        lastSale = JsonAux.JsonToSale(json2nd);
+        lastSale = AuxJson.JsonToSale(json2nd);
 
         System.out.println(lastSale);
 

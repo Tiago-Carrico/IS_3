@@ -14,7 +14,7 @@ import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.KeyValue;
 
 import com.example.templates.Sale;
-import com.example.aux.JsonAux;
+import com.example.aux.AuxJson;
 import java.math.BigDecimal;
 
 public class KafkaStream {
@@ -70,7 +70,7 @@ public class KafkaStream {
       lines
         .map((k,v) -> {
           Sale valores = new Sale();
-          valores = JsonAux.StringToSale(v);
+          valores = AuxJson.StringToSale(v);
           double price = valores.getPrice();
           int quant = valores.getNumber();
           double revenue = price * quant;
