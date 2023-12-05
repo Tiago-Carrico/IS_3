@@ -8,6 +8,7 @@ import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.Grouped;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Produced;
@@ -75,15 +76,28 @@ public class KafkaStream {
           double price = valores.getPrice();// mudar para o preço de venda do supplier
           int quant = valores.getNumber();
           double revenue = price * quant;
+<<<<<<< Updated upstream
           String result = Double.toString(revenue) + "\tIS batch 1\n\n";    //aight think it was this, there was not \n so all values got aggregated in one line, find new outtopic later
           return new KeyValue<>(k,result);
+=======
+          String result = Double.toString(revenue) + "\n";    //aight think it was this, there was not \n so all values got aggregated in one line, find new outtopic later
+          return new KeyValue<>(k,revenue);
+>>>>>>> Stashed changes
         })
-        .groupByKey()
+        .groupByKey(Grouped.with(Serdes.String(),Serdes.Double()))
         //.reduce((v1,v2) -> {})
+<<<<<<< Updated upstream
         .reduce((v1,v2) -> {
           //System.out.println("key: " + v1 + " result: " + v2 + "\n");
           return v1 + v2;} )    //due to being strings somewhere is where the values are fucked??
+=======
+        .reduce(Double::sum )    //due to being strings somewhere is where the values are fucked??
+>>>>>>> Stashed changes
         .toStream()
+        .map((k,v)->{
+          String result = Double.toString(v) + "\n";
+          return new KeyValue<>(k,v);
+        })
         .to(outtopicname,Produced.with(Serdes.String(), Serdes.String()));
       
         

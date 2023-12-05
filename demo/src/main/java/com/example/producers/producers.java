@@ -107,7 +107,11 @@ public class producers {
             producerSales.send(new ProducerRecord<String, String>(topicSales, tempREF, randomSale()));
             //System.out.println(tempREF);
             //System.out.println(tempSale);
+<<<<<<< Updated upstream
             //producerPurchases.send(new ProducerRecord<String, String>(topicPurchase, tempREF, randomPurchase()));
+=======
+            //producerSales.send(new ProducerRecord<String, String>(topicPurchase, tempREF, randomPurchase()));
+>>>>>>> Stashed changes
             i++;
             Thread.sleep(1000);
         }
