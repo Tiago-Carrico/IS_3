@@ -34,7 +34,7 @@ public class producers {
         //TODO make consumers part from bottom topics
         String topicDB = "DBInfo2";
         Properties propsDB = new Properties();
-        propsDB.put("bootstrap.servers", "broker1:9092");   //TODO how do we do to accomodate multiple brokers??  
+        propsDB.put("bootstrap.servers", "broker1:9092,broker2:9092,broker3:9092");   //TODO how do we do to accomodate multiple brokers??  
         propsDB.put("key.deserializer", 
             "org.apache.kafka.common.serialization.StringDeserializer");
         propsDB.put("value.deserializer", 
@@ -45,7 +45,7 @@ public class producers {
         //TODO make Purchase producer part
         String topicPurchase = "purchases2";
         Properties propsPurchase = new Properties();
-        propsPurchase.put("bootstrap.servers", "broker1:9092");   //TODO how do we do to accomodate multiple brokers??  
+        propsPurchase.put("bootstrap.servers", "broker1:9092,broker2:9092,broker3:9092");   //TODO how do we do to accomodate multiple brokers??  
         propsPurchase.put("acks", "all");
         propsPurchase.put("retries", 0);
         propsPurchase.put("batch.size", 16384);
@@ -60,9 +60,9 @@ public class producers {
 
 
         //TODO make Sales producer part
-        String topicSales = "bleh7";
+        String topicSales = "blehTest";
         Properties propsSales = new Properties();
-        propsSales.put("bootstrap.servers", "broker1:9092");   //TODO how do we do to accomodate multiple brokers??  
+        propsSales.put("bootstrap.servers", "broker1:9092,broker2:9092,broker3:9092");   //TODO how do we do to accomodate multiple brokers??  
         propsSales.put("acks", "all");
         propsSales.put("retries", 0);
         propsSales.put("batch.size", 16384);
@@ -82,7 +82,7 @@ public class producers {
         //TODO cycle to produce and send all new info, maybe even read here
         //final KafkaConsumer<String, String> consumer = new KafkaConsumer<>(propsDB);
         //consumer.subscribe(Arrays.asList(topicSales));
-        while(i < 6){
+        while(true){
             //It can send messages to topics
             /*
             producerSales.send(new ProducerRecord<String, String>(topicSales, Integer.toString(i), Integer.toString(i*2)));
