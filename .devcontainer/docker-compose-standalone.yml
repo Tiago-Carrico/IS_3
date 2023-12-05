@@ -44,6 +44,8 @@ services:
       KAFKA_ADVERTISED_LISTENERS: INTERNAL://broker1:9092,EXTERNAL://localhost:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
+  
+
   #for supporting more than one broker (redundancy) TODO check better later how to use
   
   connect:

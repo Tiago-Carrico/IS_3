@@ -55,7 +55,7 @@ public class KafkaStream {
 
     public static void exercicio5(){
       String topicName = "bleh3";
-      String outtopicname = "resultstopicSales123";
+      String outtopicname = "resultstopicSales1234";
 
       java.util.Properties props = new Properties();
       props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application2"); //saves the state, thats why the count is so high
@@ -74,12 +74,12 @@ public class KafkaStream {
           double price = valores.getPrice();
           int quant = valores.getNumber();
           double revenue = price * quant;
-          String result = Double.toString(revenue);
+          String result = Double.toString(revenue) + "\n";    //aight think it was this, there was not \n so all values got aggregated in one line, find new outtopic later
           return new KeyValue<>(k,result);
         })
         .groupByKey()
         //.reduce((v1,v2) -> {})
-        .reduce((v1,v2) -> v1 + v2 )
+        .reduce((v1,v2) -> v1 + v2 )    //due to being strings somewhere is where the values are fucked??
         .toStream()
         .to(outtopicname,Produced.with(Serdes.String(), Serdes.String()));
       
