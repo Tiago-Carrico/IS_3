@@ -75,12 +75,14 @@ public class KafkaStream {
           double price = valores.getPrice();// mudar para o preço de venda do supplier
           int quant = valores.getNumber();
           double revenue = price * quant;
-          String result = Double.toString(revenue) + "\n";    //aight think it was this, there was not \n so all values got aggregated in one line, find new outtopic later
+          String result = Double.toString(revenue) + "\tIS batch 1\n\n";    //aight think it was this, there was not \n so all values got aggregated in one line, find new outtopic later
           return new KeyValue<>(k,result);
         })
         .groupByKey()
         //.reduce((v1,v2) -> {})
-        .reduce((v1,v2) -> v1 + v2 )    //due to being strings somewhere is where the values are fucked??
+        .reduce((v1,v2) -> {
+          //System.out.println("key: " + v1 + " result: " + v2 + "\n");
+          return v1 + v2;} )    //due to being strings somewhere is where the values are fucked??
         .toStream()
         .to(outtopicname,Produced.with(Serdes.String(), Serdes.String()));
       

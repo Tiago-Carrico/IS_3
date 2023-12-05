@@ -82,7 +82,7 @@ public class producers {
         //TODO cycle to produce and send all new info, maybe even read here
         //final KafkaConsumer<String, String> consumer = new KafkaConsumer<>(propsDB);
         //consumer.subscribe(Arrays.asList(topicSales));
-        while(true){
+        while(i < 6){
             //It can send messages to topics
             /*
             producerSales.send(new ProducerRecord<String, String>(topicSales, Integer.toString(i), Integer.toString(i*2)));
@@ -107,7 +107,7 @@ public class producers {
             producerSales.send(new ProducerRecord<String, String>(topicSales, tempREF, randomSale()));
             //System.out.println(tempREF);
             //System.out.println(tempSale);
-            producerSales.send(new ProducerRecord<String, String>(topicPurchase, tempREF, randomPurchase()));
+            //producerPurchases.send(new ProducerRecord<String, String>(topicPurchase, tempREF, randomPurchase()));
             i++;
             Thread.sleep(1000);
         }

@@ -1,0 +1,27 @@
+POST /connectors HTTP/1.1
+Host: connect:8083
+Content-Type: application/json
+Accept: application/json
+
+{
+    "name": "source",
+    "config": {
+        "connector.class": "io.confluent.connect.jdbc.JdbcSourceConnector",
+        "connection.url":"jdbc:postgresql://database:5432/project3",
+        "connection.user":"postgres", 
+        "connection.password":"nopass", 
+        "dialect.name": "PostgreSqlDatabaseDialect",
+        "mode":"bulk",
+        "query":"SELECT * FROM sock;",
+        "poll.interval.ms":"60000",
+        "topic.prefix":"DBInfo_sock"
+    }
+}
+
+###
+GET /connectors HTTP/1.1
+Host: connect:8083
+
+###
+DELETE /connectors/source HTTP/1.1
+Host: connect:8083
