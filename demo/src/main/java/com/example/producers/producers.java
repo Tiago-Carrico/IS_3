@@ -145,8 +145,9 @@ public class producers {
         int randomNum = numberList[random.nextInt(numberList.length)];
         String randomRef = referenceList[random.nextInt(referenceList.length)];
         int randomSupplier = supplierList[random.nextInt(numberList.length)];
+        String randomType = typeList[random.nextInt(typeList.length)];
 
-        Purchase tempPurch = new Purchase(randomRef, randomOriginPrice,randomNum,randomRef,randomSupplier);
+        Purchase tempPurch = new Purchase(randomRef, randomOriginPrice,randomNum,randomType,randomSupplier);
         tempREF = randomRef;
         return tempPurch.JsonToString();
     
