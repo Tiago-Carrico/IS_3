@@ -37,14 +37,28 @@ services:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_BROKER_RACK: "r1"
+      #KAFKA_BROKER_RACK: "r1"
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:32181"
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_ADVERTISED_LISTENERS: INTERNAL://broker1:9092,EXTERNAL://localhost:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-  
+  broker2:
+      image: confluentinc/cp-kafka:7.0.1
+      container_name: broker2
+      ports:
+        - 39093:39093
+      depends_on:
+        - zookeeper
+      environment:
+        KAFKA_BROKER_ID: 2
+        #KAFKA_BROKER_RACK: "r1"
+        KAFKA_ZOOKEEPER_CONNECT: "zookeeper:32181"
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+        KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+        KAFKA_ADVERTISED_LISTENERS: INTERNAL://broker2:9092,EXTERNAL://localhost:39093
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   #for supporting more than one broker (redundancy) TODO check better later how to use
   
@@ -53,13 +67,15 @@ services:
     container_name: connect
     depends_on:
       - broker1
+      - broker2
     ports:
       - 8083:8083
     links:
       - broker1
+      - broker2
       - database
     environment:
-      - CONNECT_BOOTSTRAP_SERVERS=broker1:9092
+      - CONNECT_BOOTSTRAP_SERVERS=broker1:9092,broker2:9093
       - CONNECT_REST_ADVERTISED_PORT=8083
       - CONNECT_REST_ADVERTISED_HOST_NAME=connect
       - CONNECT_GROUP_ID=connect
@@ -87,6 +103,7 @@ services:
     links:
       - database
       - broker1
+      - broker2
       - zookeeper
     volumes:
       - ..:/workspace
