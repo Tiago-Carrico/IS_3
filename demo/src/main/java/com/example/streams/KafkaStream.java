@@ -14,6 +14,7 @@ import org.apache.kafka.streams.kstream.Produced;
 import org.apache.kafka.streams.KeyValue;
 
 import com.example.templates.Sale;
+import com.example.templates.Purchase;
 import com.example.auxFuncs.AuxJson;
 import java.math.BigDecimal;
 
@@ -54,8 +55,6 @@ public class KafkaStream {
     
     }
 
-
-
     public static void exercicio5(){
       String topicName = "bleh7";
       String outtopicname = "resultstopicSales7";
@@ -69,7 +68,6 @@ public class KafkaStream {
       StreamsBuilder builder = new StreamsBuilder();
       KStream<String, String> lines = builder.stream(topicName, Consumed.with(Serdes.String(), Serdes.String()));
 
-      
       lines
         .map((k,v) -> {
           Sale valores = new Sale();
@@ -99,7 +97,7 @@ public class KafkaStream {
  }
 
     public static void exercicio6(){
-      String topicName = "bleh3";
+      String topicName = "purchases2";
       String outtopicname = "resultstopicSales123";
 
       java.util.Properties props = new Properties();
@@ -114,8 +112,8 @@ public class KafkaStream {
       
       lines
         .map((k,v) -> {
-          Sale valores = new Sale();
-          valores = AuxJson.StringToSale(v);
+          Purchase valores = new Purchase();
+          valores = AuxJson.StringToPurchase(v);
           double price = valores.getPrice();// mudar para o preço de compra dos suppliers
           int quant = valores.getNumber();
           double revenue = price * quant;
