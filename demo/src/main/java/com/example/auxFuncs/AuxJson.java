@@ -34,13 +34,14 @@ public class AuxJson {
     }
 
     public static Purchase JsonToPurchase(JSONObject obj){
+        String newReference = obj.get("reference").toString();
         BigDecimal temp = (BigDecimal) obj.get("price");
         double newPrice = temp.doubleValue();
         int newNumber = (int) obj.get("number");
         String newType = obj.get("type").toString();
         int newSupplier = (int) obj.get("supplier");
 
-        Purchase newPurchase = new Purchase(newPrice, newNumber, newType, newSupplier);
+        Purchase newPurchase = new Purchase(newReference, newPrice, newNumber, newType, newSupplier);
         return newPurchase;
     }
 

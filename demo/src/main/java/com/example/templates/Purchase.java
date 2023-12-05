@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import org.json.JSONObject;
 
 public class Purchase {
+    private String reference;
     private double price;
     private int number;
     private String type;
@@ -11,12 +12,21 @@ public class Purchase {
 
     public Purchase(){};
 
-    public Purchase(double price, int number, String type, int supplier){
+    public Purchase(String reference, double price, int number, String type, int supplier){
+        this.reference = reference;
         this.price = price;
         this.number = number;
         this.type = type;
         this.supplier = supplier;
     };
+    
+    public void setReference(String reference){
+        this.reference = reference;
+    }
+
+    public String getReference(){
+        return reference;
+    }
 
     public void setPrice(double price){
         this.price = price;
@@ -53,6 +63,7 @@ public class Purchase {
     public String JsonToString(){
         JSONObject obj = new JSONObject();
 
+        obj.put("reference", this.reference);
         obj.put("price", this.price);
         obj.put("number", this.number);
         obj.put("type", this.type);
@@ -62,6 +73,6 @@ public class Purchase {
     }
 
     public String toString(){
-        return ("{\nPrice: " + price + "\nNumber: " + number + "\nType: " + type + "\nSupplier: " + supplier + "\n}");
+        return ("{\nReference: " + reference + "Price: " + price + "\nNumber: " + number + "\nType: " + type + "\nSupplier: " + supplier + "\n}");
     }
 }
