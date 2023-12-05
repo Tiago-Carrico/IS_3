@@ -20,6 +20,7 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 
 import com.example.templates.Sale;
+import com.example.templates.Purchase;
 
 import java.math.BigDecimal;
 
@@ -101,13 +102,14 @@ public class producers {
 
 
             String tempSale = randomSale();
+            String tempPurchase = randomPurchase();
 
             producerSales.send(new ProducerRecord<String, String>(topicSales, tempREF, randomSale()));
             //System.out.println(tempREF);
             //System.out.println(tempSale);
+            producerSales.send(new ProducerRecord<String, String>(topicPurchase, tempREF, randomPurchase()));
             i++;
             Thread.sleep(1000);
-
         }
     }
 
@@ -119,6 +121,8 @@ public class producers {
     static int[] supplierList = {1, 5, 10};
     static int[] buyerList = {156, 278, 923};
     static String tempREF = "";
+    
+    static double[] originalPrice = {20};
 
     public static String randomSale(){
         Random random = new Random();  
@@ -132,6 +136,20 @@ public class producers {
         Sale tempSale = new Sale(randomRef, randomPrice, randomNum, randomSupplier, randomBuyer);
         tempREF = randomRef;
         return tempSale.JsonToString();
+    }
+
+    public static String randomPurchase(){
+        Random random = new Random();
+
+        double randomOriginPrice = originalPrice[random.nextInt(originalPrice.length)];
+        int randomNum = numberList[random.nextInt(numberList.length)];
+        String randomRef = referenceList[random.nextInt(referenceList.length)];
+        int randomSupplier = supplierList[random.nextInt(numberList.length)];
+
+        Purchase tempPurch = new Purchase(randomOriginPrice,randomNum,randomRef,randomSupplier);
+        tempREF = randomRef;
+        return tempPurch.JsonToString();
+    
     }
 
 }
