@@ -60,7 +60,7 @@ public class producers {
 
 
         //TODO make Sales producer part
-        String topicSales = "blehTest";
+        String topicSales = "blehTest5";
         Properties propsSales = new Properties();
         propsSales.put("bootstrap.servers", "broker1:9092,broker2:9092,broker3:9092");   //TODO how do we do to accomodate multiple brokers??  
         propsSales.put("acks", "all");
@@ -82,7 +82,7 @@ public class producers {
         //TODO cycle to produce and send all new info, maybe even read here
         //final KafkaConsumer<String, String> consumer = new KafkaConsumer<>(propsDB);
         //consumer.subscribe(Arrays.asList(topicSales));
-        while(true){
+        while(i < 10){
             //It can send messages to topics
             /*
             producerSales.send(new ProducerRecord<String, String>(topicSales, Integer.toString(i), Integer.toString(i*2)));
@@ -107,11 +107,7 @@ public class producers {
             producerSales.send(new ProducerRecord<String, String>(topicSales, tempREF, randomSale()));
             //System.out.println(tempREF);
             //System.out.println(tempSale);
-<<<<<<< Updated upstream
-            //producerPurchases.send(new ProducerRecord<String, String>(topicPurchase, tempREF, randomPurchase()));
-=======
             //producerSales.send(new ProducerRecord<String, String>(topicPurchase, tempREF, randomPurchase()));
->>>>>>> Stashed changes
             i++;
             Thread.sleep(1000);
         }
@@ -137,7 +133,10 @@ public class producers {
         int randomSupplier = supplierList[random.nextInt(numberList.length)];
         int randomBuyer = buyerList[random.nextInt(buyerList.length)];
 
-        Sale tempSale = new Sale(randomRef, randomPrice, randomNum, randomSupplier, randomBuyer);
+        double randomPrice2 = 5.1;
+        int randomNum2 = 1;
+
+        Sale tempSale = new Sale(randomRef, randomPrice2, randomNum2, randomSupplier, randomBuyer);
         tempREF = randomRef;
         return tempSale.JsonToString();
     }
