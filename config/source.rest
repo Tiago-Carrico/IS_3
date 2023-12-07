@@ -13,7 +13,11 @@ Accept: application/json
         "dialect.name": "PostgreSqlDatabaseDialect",
         "mode":"bulk",
         "query":"SELECT * FROM sock;",
+        "topic.creation.enable": true,
+        "topic.creation.default.replication.factor": -1,  
+        "topic.creation.default.partitions": -1,
         "poll.interval.ms":"60000",
+        "topic.creation.groups":"DBInfo_sock",
         "topic.prefix":"DBInfo_sock"
     }
 }
