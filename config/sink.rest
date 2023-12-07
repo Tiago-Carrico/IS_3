@@ -12,7 +12,7 @@ Accept: application/json
         "connection.password": "nopass",
         "dialect.name": "PostgreSqlDatabaseDialect",
         "poll.interval.ms" : "60000",
-        "topics.regex": "resultsEx",
+        "topics.regex": "resEx_*",
         "insert.mode": "insert",
         "auto.create": true,
         "table.name.format": "auto_${topic}"
@@ -21,6 +21,7 @@ Accept: application/json
 }
 
 #Para verificar a tabela do sink, em vez de usar o nome normalmente, usar "<nome_db>" 
+#Também, demora muito a criar a tabela na base de dados, nao te assustes
 
 ###
 GET /connectors HTTP/1.1
@@ -31,6 +32,6 @@ DELETE /connectors/sink HTTP/1.1
 Host: connect:8083
 
 ###
-{"schema":{"type":"struct","fields":[{"type":"string","optional":false,"field":"result"}],"optional":false},"payload":{"result":"27"}}
+{"schema":{"type":"struct","fields":[{"type":"string","optional":false,"field":"result"}],"optional":false},"payload":{"result":"50"}}
 
-{"schema":{"type":"struct","fields":[{"type":"string","optional":false,"field":"result"}],"optional":false,"name":"total data"},"payload":{"result":"27"}}
+{"schema":{"type":"struct","fields":[{"type":"string","optional":false,"field":"result"}],"optional":false,"name":"total data"},"payload":{"result":"40"}}

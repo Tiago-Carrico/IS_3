@@ -1,0 +1,22 @@
+{"schema":
+    {"type":"struct",
+        "fields":[
+            {
+                "type":"int64","optional":false,"field":"id"
+            },
+            {
+                "type":"string","optional":false,"field":"tipo"
+            },
+            {
+                "type":"int64","optional":false,"field":"preco"
+            },
+            {
+                "type":"int64","optional":false,"field":"supplier_id"
+            }]
+            ,"optional":false
+    },
+"payload":
+    {
+        "id":1,"tipo":"Cotton Socks","preco":6,"supplier_id":2
+    }
+}

@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import com.example.templates.Sale;
 import com.example.templates.Purchase;
+import com.example.templates.Sock;
 
 public class AuxJson {
 
@@ -45,10 +46,26 @@ public class AuxJson {
         return newPurchase;
     }
 
+    public static Sock JsonToSock(JSONObject obj){
+        int newId = (int) obj.get("id");
+        String newTipo = obj.get("tipo").toString();
+        double newPreco = ((BigDecimal) obj.get("preco")).doubleValue();
+        int newSupplier_id = (int) obj.get("supplier_id");
+
+        Sock newSock = new Sock(newId, newTipo, newPreco, newSupplier_id);
+        return newSock;
+    }
+
     public static Purchase StringToPurchase(String data){
         JSONObject newObj = StringToJson(data);
         Purchase newPurchase = JsonToPurchase(newObj);
         return newPurchase;
+    }
+
+    public static Sock dbSockJSONToSock(String data){
+        JSONObject newObj = StringToJson(data);
+        Sock newSock = JsonToSock(newObj);
+        return newSock;
     }
     
 }

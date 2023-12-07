@@ -182,6 +182,7 @@ public class KafkaStream {
       
  }
 
+ /*
  public static void exercicio6(){
       String topicName = "blehTest5";
       String outtopicname = "resultsEx6";
@@ -223,7 +224,7 @@ public class KafkaStream {
       
       System.out.println("Reading stream from topic " + topicName);
       
- }
+ }*/
 
 
     
@@ -363,13 +364,6 @@ public static void exercicio8(){
         })
         .map((k, v) -> new KeyValue<>("sum", v))
         .groupByKey(Grouped.with(Serdes.String(), Serdes.String()))
-        /* 
-        .aggregate(
-          () -> 0,
-          (key, value, aggregate) -> {return value + aggregate;},
-          Materialized.with(Serdes.String(), Serdes.Double())
-        )*/
-        //.reduce((v1, v2) -> v1+v2)
         .aggregate(
           () -> 0.0,
           (key, value, aggregate) -> aggregate + Double.parseDouble(value),
