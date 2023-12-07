@@ -60,7 +60,7 @@ public class producers {
 
 
         //TODO make Sales producer part
-        String topicSales = "blehTest5";
+        String topicSales = "blehTest7";
         Properties propsSales = new Properties();
         propsSales.put("bootstrap.servers", "broker1:9092,broker2:9092,broker3:9092");   //TODO how do we do to accomodate multiple brokers??  
         propsSales.put("acks", "all");
@@ -111,6 +111,7 @@ public class producers {
             i++;
             Thread.sleep(1000);
         }
+        producerSales.close();
     }
 
     static String[] referenceList = {"id123", "id456", "id789"};
