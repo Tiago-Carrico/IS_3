@@ -108,11 +108,11 @@ public class KafkaStream {
       
  }*/
     public static void exercicio5(){
-      String topicName = "blehTest5";
-      String outtopicname = "resultstopicSales9";
+      String topicName = "blehTest11";
+      String outtopicname = "resultstopicSales11";
 
       java.util.Properties props = new Properties();
-      props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application5"); //saves the state, thats why the count is so high
+      props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application102"); //saves the state, thats why the count is so high
       props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "broker1:9092,broker2:9092,broker3:9092");
       props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
       props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
@@ -131,14 +131,17 @@ public class KafkaStream {
           System.out.println("at least got here lmao");
           return new KeyValue<>(k,revenue);
         })*/
-        .mapValues(v -> {
+        .map((k,v) -> {
           Sale valores = new Sale();
           valores = AuxJson.StringToSale(v);
           double price = valores.getPrice();// mudar para o preço de venda do supplier
           int quant = valores.getNumber();
           double revenue = price * quant;
+          System.out.println("REVENUES:  " + revenue  + "\n\n\n");
+          System.out.println("ToString : " + Double.toString(revenue) + " \n" );
+          System.out.println("key : " + k + " \n" );
           //System.out.println("at least got here lmao");
-          return Double.toString(revenue);
+          return new KeyValue<>(k,Double.toString(revenue));
         })
         .groupByKey(Grouped.with(Serdes.String(), Serdes.String()))
         /* 
@@ -148,20 +151,23 @@ public class KafkaStream {
           Materialized.with(Serdes.String(), Serdes.Double())
         )*/
         //.reduce((v1, v2) -> v1+v2)
+        
         .aggregate(
           () -> 0.0,
           (key, value, aggregate) -> aggregate + Double.parseDouble(value),
-          Materialized.<String, Double, KeyValueStore<Bytes, byte[]>>as("sum-by-key-store")
-                                .withKeySerde(Serdes.String())
-                                .withValueSerde(Serdes.Double())
+          Materialized.with(Serdes.String(), Serdes.Double())
+          
         )
         .toStream()
+        
         .map((k,v) -> {
           //String result = String.valueOf(v) + "\n";
           //System.out.println("key: " + k + " value: " + v + "\n");
-          return new KeyValue<>(k,Double.toString(v));
+          return new KeyValue<>(k," " + k + " -> " + Double.toString(v));
         })
+        
         .to(outtopicname,Produced.with(Serdes.String(), Serdes.String()));
+        
 
       
         
@@ -220,13 +226,13 @@ public class KafkaStream {
  }
 
 
-    /* 
+    
     public static void exercicio6(){
-      String topicName = "purchases2";
-      String outtopicname = "resultstopicSales123";
+      String topicName = "purchases10";
+      String outtopicname = "resultstopicSales20";
 
       java.util.Properties props = new Properties();
-      props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application2"); //saves the state, thats why the count is so high
+      props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application200"); //saves the state, thats why the count is so high
       props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "broker1:9092,broker2:9092,broker3:9092");
       props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
       props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
@@ -239,16 +245,38 @@ public class KafkaStream {
         .map((k,v) -> {
           Purchase valores = new Purchase();
           valores = AuxJson.StringToPurchase(v);
-          double price = valores.getPrice();// mudar para o preço de compra dos suppliers
+          double price = valores.getPrice();// mudar para o preço de venda do supplier
           int quant = valores.getNumber();
           double revenue = price * quant;
-          String result = Double.toString(revenue);
-          return new KeyValue<>(k,result);
+          System.out.println("REVENUES:  " + revenue  + "\n\n\n");
+          System.out.println("ToString : " + Double.toString(revenue) + " \n" );
+          System.out.println("key : " + k + " \n" );
+          //System.out.println("at least got here lmao");
+          return new KeyValue<>(k,Double.toString(revenue));
         })
-        .groupByKey()
-        //.reduce((v1,v2) -> {})
-        .reduce((v1,v2) -> v1 + v2 )
+        .groupByKey(Grouped.with(Serdes.String(), Serdes.String()))
+        /* 
+        .aggregate(
+          () -> 0,
+          (key, value, aggregate) -> {return value + aggregate;},
+          Materialized.with(Serdes.String(), Serdes.Double())
+        )*/
+        //.reduce((v1, v2) -> v1+v2)
+        
+        .aggregate(
+          () -> 0.0,
+          (key, value, aggregate) -> aggregate + Double.parseDouble(value),
+          Materialized.with(Serdes.String(), Serdes.Double())
+          
+        )
         .toStream()
+        
+        .map((k,v) -> {
+          //String result = String.valueOf(v) + "\n";
+          //System.out.println("key: " + k + " value: " + v + "\n");
+          return new KeyValue<>(k," " + k + " -> " + Double.toString(v));
+        })
+        
         .to(outtopicname,Produced.with(Serdes.String(), Serdes.String()));
       
         
@@ -261,7 +289,7 @@ public class KafkaStream {
       
       System.out.println("Reading stream from topic " + topicName);
       
- }*/
+ }
 
  /*
     public static void exercicio7(){
@@ -309,13 +337,13 @@ public class KafkaStream {
  } */
 
 
-//Think it works, got the correct sum on the topic
+ 
 public static void exercicio8(){
-      String topicName = "blehTest7";
-      String outtopicname = "resultstopicSales10";
+      String topicName = "blehTest5";
+      String outtopicname = "resultstopicSales9";
 
       java.util.Properties props = new Properties();
-      props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application5"); //saves the state, thats why the count is so high
+      props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application6"); //saves the state, thats why the count is so high
       props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "broker1:9092,broker2:9092,broker3:9092");
       props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
       props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
@@ -324,16 +352,6 @@ public static void exercicio8(){
       KStream<String, String> lines = builder.stream(topicName, Consumed.with(Serdes.String(), Serdes.String()));
 
       lines
-      /* 
-        .map((k,v) -> {
-          Sale valores = new Sale();
-          valores = AuxJson.StringToSale(v);
-          double price = valores.getPrice();// mudar para o preço de venda do supplier
-          int quant = valores.getNumber();
-          double revenue = price * quant;
-          System.out.println("at least got here lmao");
-          return new KeyValue<>(k,revenue);
-        })*/
         .mapValues(v -> {
           Sale valores = new Sale();
           valores = AuxJson.StringToSale(v);

@@ -10,6 +10,11 @@ kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic demo_java
 Our:
 kafka-console-consumer.sh --bootstrap-server broker1:9092 --topic demo_java
 
+List topics: 
+kafka-topics.sh --bootstrap-server=broker1:9092 --list
+
+Delete topic:
+kafka-topics.sh --delete --bootstrap-server broker1:9092 --topic "nome topico"
 
 ## TODO:
 - Make Customers (Producer) to "Sock Sales" topic
