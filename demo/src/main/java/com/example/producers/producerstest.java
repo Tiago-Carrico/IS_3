@@ -85,7 +85,7 @@ public class producerstest {
                     //System.out.println(record.value().getClass());
                     System.out.println(jsonData.get("payload").getClass());  //works good, gets only socks in json
                     //System.out.println(jsonData);
-                    System.out.println(JsonToSock(jsonData.get("payload")));
+                    //System.out.println(JsonToSock(jsonData.get("payload")));
                     //arrSocks.add(JsonToSock(jsonData));
                 }
                 

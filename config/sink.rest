@@ -12,7 +12,7 @@ Accept: application/json
         "connection.password": "nopass",
         "dialect.name": "PostgreSqlDatabaseDialect",
         "poll.interval.ms" : "60000",
-        "topics.regex": "resEx_*",
+        "topics.regex": "resEx_.*",
         "insert.mode": "insert",
         "auto.create": true,
         "table.name.format": "auto_${topic}"
@@ -24,7 +24,7 @@ Accept: application/json
 #Também, demora muito a criar a tabela na base de dados, nao te assustes
 
 ###
-GET /connectors HTTP/1.1
+GET /connectors/sink HTTP/1.1
 Host: connect:8083
 
 ###
