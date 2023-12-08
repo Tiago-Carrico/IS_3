@@ -11,11 +11,16 @@ Accept: application/json
         "connection.user": "postgres",
         "connection.password": "nopass",
         "dialect.name": "PostgreSqlDatabaseDialect",
-        "poll.interval.ms" : "60000",
+        "poll.interval.ms" : 60000,
         "topics.regex": "resEx_.*",
         "insert.mode": "insert",
+        "key.converter":"org.apache.kafka.connect.storage.StringConverter",
+        "value.converter":"org.apache.kafka.connect.json.JsonConverter",
+        "key.converter.schemas.enable":true,
+        "value.converter.schemas.enable":true,
         "auto.create": true,
         "table.name.format": "auto_${topic}"
+        
     }
     
 }
