@@ -39,11 +39,11 @@ public class KafkaStream {
   static public KTable<String,Double> totalprofitTable;
     public static void main(String[] args) throws InterruptedException, IOException {
 
-    String topicName1 = "sales511";
-    String topicName2 = "purchases611";
+    String topicName1 = "sockSalesTopic";
+    String topicName2 = "sockPurchaseTopic";
     
     java.util.Properties props = new Properties();
-    props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application111"); //saves the state, thats why the count is so high
+    props.put(StreamsConfig.APPLICATION_ID_CONFIG, "exercises-application9999"); //saves the state, thats why the count is so high
     props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "broker1:9092,broker2:9092,broker3:9092");
     props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
     props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
@@ -72,7 +72,7 @@ public class KafkaStream {
     
 
     public static void exercicio5(KStream<String,String> build ){
-      String outtopicname = "resultstopicSales987";
+      String outtopicname = "resEx_5";
 
      salesTable = build
         .map((k,v) -> {
@@ -81,10 +81,9 @@ public class KafkaStream {
           double price = valores.getPrice();
           int quant = valores.getNumber();
           double revenue = price * quant;
-          System.out.println("REVENUES:  " + revenue  + "\n\n\n");
-          System.out.println("ToString : " + Double.toString(revenue) + " \n" );
-          System.out.println("key : " + k + " \n" );
-          //System.out.println("at least got here lmao");
+          //System.out.println("REVENUES:  " + revenue  + "\n\n\n");
+          //System.out.println("ToString : " + Double.toString(revenue) + " \n" );
+          //System.out.println("key : " + k + " \n" );
           return new KeyValue<>(k,Double.toString(revenue));
         })
         .groupByKey(Grouped.with(Serdes.String(), Serdes.String()))
@@ -109,7 +108,7 @@ public class KafkaStream {
 
     
     public static void exercicio6(KStream<String,String> build  ){
-      String outtopicname = "resultstopicSales987";
+      String outtopicname = "resEx_6";
 
       purchasesTable = build
         .map((k,v) -> {
@@ -118,9 +117,9 @@ public class KafkaStream {
           double price = valores.getPrice();
           int quant = valores.getNumber();
           double revenue = price * quant;
-          System.out.println("REVENUES:  " + revenue  + "\n\n\n");
-          System.out.println("ToString : " + Double.toString(revenue) + " \n" );
-          System.out.println("key : " + k + " \n" );
+          //System.out.println("REVENUES:  " + revenue  + "\n\n\n");
+          //System.out.println("ToString : " + Double.toString(revenue) + " \n" );
+          //System.out.println("key : " + k + " \n" );
           return new KeyValue<>(k,Double.toString(revenue));
         })
         .groupByKey(Grouped.with(Serdes.String(), Serdes.String()))        
@@ -144,7 +143,7 @@ public class KafkaStream {
  
     public static void exercicio7( ){
 
-      String outtopicname = "resultstopicSales987";
+      String outtopicname = "resEx_7";
 
       KTable<String,Double> profitTable = purchasesTable.join(salesTable,(left,right) -> left - right);
 /*
@@ -171,7 +170,7 @@ public class KafkaStream {
  
 public static void exercicio8(KStream<String,String> build){
    
-  String outtopicname = "resultstopicSales987";
+  String outtopicname = "resEx_8";
 
       totalsalesTable =build
         .mapValues(v -> {
@@ -206,7 +205,7 @@ public static void exercicio8(KStream<String,String> build){
 
  public static void exercicio9(KStream<String,String> build){
 
-      String outtopicname = "resultstopicSales987";
+      String outtopicname = "resEx_9";
 
       totalpurchaseTable = build
         .mapValues(v -> {
@@ -240,7 +239,7 @@ public static void exercicio8(KStream<String,String> build){
 
  public static void exercicio10( ){
 
-      String outtopicname = "resultstopicSales987";
+      String outtopicname = "resEx_10";
 
       KTable<String,Double> totalprofitTable = totalpurchaseTable.join(totalsalesTable,(left,right) -> left - right);
 
@@ -258,7 +257,7 @@ public static void exercicio8(KStream<String,String> build){
 
  public static void exercicio14(KStream<String,String> build){
       
-      String outtopicname = "resultstopicSales987";
+      String outtopicname = "resEx_14";
 
       TimeWindows tumblingWindow = TimeWindows.of(Duration.ofMinutes(60));
 
@@ -266,10 +265,9 @@ public static void exercicio8(KStream<String,String> build){
         .mapValues(v -> {
           Sale valores = new Sale();
           valores = AuxJson.StringToSale(v);
-          double price = valores.getPrice();// mudar para o preço de venda do supplier
+          double price = valores.getPrice();
           int quant = valores.getNumber();
           double revenue = price * quant;
-          //System.out.println("at least got here lmao");
           return revenue;
         })
         .map((k, v) -> new KeyValue<>("sum", v))
@@ -287,7 +285,7 @@ public static void exercicio8(KStream<String,String> build){
  }
 
  public static void exercicio15(KStream<String,String> build){
-       String outtopicname = "resultstopicSales987";
+       String outtopicname = "resEx_15";
 
       
       TimeWindows tumblingWindow = TimeWindows.of(Duration.ofMinutes(60));
@@ -318,23 +316,22 @@ public static void exercicio8(KStream<String,String> build){
 
 public static void exercicio16( ){
 
-      String outtopicname = "resultstopicSales987";
+      String outtopicname = "resEx_16";
 
       KTable<Windowed<String>,Double> totalprofitTableWindow = purchasesTableWindow.join(salesTableWindow,(left,right) -> left - right);
 
   KTable<String, Double> transformedTable = totalprofitTableWindow
     .toStream()
-    .map((keyValue, value) -> KeyValue.pair(keyValue.key(), value)) // Extract key from Windowed and create new KeyValue
-    .groupByKey(Grouped.with(Serdes.String(), Serdes.Double())) // Group by extracted String key
+    .map((keyValue, value) -> KeyValue.pair(keyValue.key(), value))
+    .groupByKey(Grouped.with(Serdes.String(), Serdes.Double())) 
     .reduce((value1, value2) -> value1);
 
+  transformedTable.toStream().map((k,v) -> {
+    return new KeyValue<>(k,"Exercicio 16 " + k + " -> " + Double.toString(v));
+    })
+    .to(outtopicname,Produced.with(Serdes.String(), Serdes.String()));
 
-      transformedTable.toStream().map((k,v) -> {
-          return new KeyValue<>(k,"Exercicio 16 " + k + " -> " + Double.toString(v));
-        })
-        .to(outtopicname,Produced.with(Serdes.String(), Serdes.String()));
-
-        System.out.println("Doing stream for 16" );
+    System.out.println("Doing stream for 16" );
       
  } 
 
