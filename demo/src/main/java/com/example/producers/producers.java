@@ -43,7 +43,7 @@ public class producers {
 
 
         //TODO make Purchase producer part
-        String topicPurchase = "purchases10";
+        String topicPurchase = "purchases611";
         Properties propsPurchase = new Properties();
         propsPurchase.put("bootstrap.servers", "broker1:9092,broker2:9092,broker3:9092");   //TODO how do we do to accomodate multiple brokers??  
         propsPurchase.put("acks", "all");
@@ -60,7 +60,7 @@ public class producers {
 
 
         //TODO make Sales producer part
-        String topicSales = "blehTest11";
+        String topicSales = "sales511";
         Properties propsSales = new Properties();
         propsSales.put("bootstrap.servers", "broker1:9092,broker2:9092,broker3:9092");   //TODO how do we do to accomodate multiple brokers??  
         propsSales.put("acks", "all");
@@ -102,7 +102,8 @@ public class producers {
 
 
             //String tempSale = randomSale(producerSales,topicSales);
-            String tempPurchase = randomPurchase(producerPurchase,topicPurchase);
+            //String tempPurchase = randomPurchase(producerPurchase,topicPurchase);
+            randomPurchaseSale(producerSales, producerPurchase, topicSales, topicPurchase);
 
            // producerSales.send(new ProducerRecord<String, String>(topicSales, tempREF, tempSale));
             //System.out.println(tempREF);
@@ -112,7 +113,7 @@ public class producers {
             Thread.sleep(1000);
             
         }
-        //producerSales.close();
+        producerSales.close();
         producerPurchase.close();
     }
 
@@ -165,5 +166,30 @@ public class producers {
         return tempPurch.JsonToString();
     
     }
+
+
+    public static void randomPurchaseSale(Producer<String, String> producerSales,Producer<String, String> producerPurchase, String topicSales, String topicPurchase){
+        Random random = new Random();  
+
+        String randomRef = referenceList[random.nextInt(referenceList.length)];
+        double randomPrice = priceList[random.nextInt(priceList.length)];
+        int randomNum = numberList[random.nextInt(numberList.length)];
+        int randomSupplier = supplierList[random.nextInt(numberList.length)];
+        int randomBuyer = buyerList[random.nextInt(buyerList.length)];
+        String randomType = typeList[random.nextInt(typeList.length)];
+
+        double randomPrice2 = 5.1;
+        int randomNum2 = 1;
+        int randomNum3 = 2;
+
+        Sale tempSale = new Sale(randomRef, randomPrice2, randomNum2, randomSupplier, randomBuyer);
+        Purchase tempPurchase = new Purchase(randomRef, randomPrice2,randomNum3,randomType,randomSupplier);
+        
+        producerSales.send(new ProducerRecord<String, String>(topicSales, randomRef, tempSale.JsonToString()));
+        producerPurchase.send(new ProducerRecord<String,String>(topicPurchase, randomRef, tempPurchase.JsonToString()));
+        
+        return ;
+    }
+
 
 }
